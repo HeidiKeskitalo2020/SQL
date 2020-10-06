@@ -1,0 +1,95 @@
+These tasks are part of the course Databases & SQL
+The course can be found here: https://centria.github.io/databases/
+
+
+1.	SELECT name FROM Movies;				
+2.	SELECT name, year FROM Movies;	
+3.	SELECT name FROM Movies WHERE year=1940;		
+4.	SELECT name FROM Movies WHERE year <1950;		
+5.	SELECT name FROM Movies WHERE year>=1940 AND year<=1950;	
+6.	SELECT name FROM Movies WHERE year<1950 OR year>1980;		
+7.	SELECT name FROM Movies WHERE year>1940 OR year<1940;		
+8.	SELECT name FROM Movies ORDER BY name;		
+9.	SELECT name FROM Movies ORDER BY name DESC;	
+10.	SELECT name, year FROM Movies ORDER BY year DESC, name;	
+11.	SELECT DISTINCT forename FROM Names;	
+12.	SELECT DISTINCT forename, surname FROM Names;	
+13.	SELECT COUNT(*) FROM Employees;	
+14.	SELECT COUNT(id) FROM Employees WHERE salary>2000;	
+15.	SELECT SUM(salary) FROM Employees;		
+16.	SELECT MAX(salary) FROM Employees;		
+17.	SELECT COUNT(DISTINCT company) FROM Employees;		
+18.	SELECT company, COUNT(company) FROM Employees GROUP BY company;	
+19.	SELECT company, MAX(salary) FROM Employees GROUP BY company;	
+20.	SELECT company, MAX(salary) total FROM Employees GROUP BY company HAVING total >= 5000;    …HAVING MAX(salary)>=5000;
+21.	SELECT Players.name, Results.score FROM Players, Result WHERE Results.player_id = Players.id; 	OK
+22.	SELECT Players.name, Results.score FROM Players, Results WHERE Results.player_id = Players.id AND Players.name = 'Uolevi';  	Ok
+23.	SELECT Players.name, Results.score FROM Players, Results WHERE Results.player_id = Players.id AND Results.score> 250;  	OK
+24.	SELECT Players.name, Results.score FROM Players, Results WHERE Results.player_id = Players.id ORDER BY Results.score DESC, Players.id DESC;    …Players.name  OK	
+25.	SELECT Players.name, MAX(Results.score) FROM Players, Results WHERE Results.player_id = Players.id GROUP BY Players.id;		OK
+26.	SELECT Players.name, COUNT(Results.score) FROM Players, Results WHERE Results.player_id = Players.id GROUP BY Players.id;		Ok
+27.	SELECT Students.name, Courses.name, Gradings.grade FROM Students, Courses, Gradings WHERE Gradings.student_id = Students.id AND Gradings.course_id = Courses.id 	     Ok 
+28.	SELECT Courses.name, Gradings.grade  FROM  Courses, Gradings, Students WHERE Gradings.student_id = Students.id AND Gradings.course_id = Courses.id AND Students.name= 'Uolevi';       	OK
+29.	SELECT Students.name, Gradings.grade  FROM  Courses, Gradings, Students WHERE Gradings.student_id = Students.id AND Gradings.course_id = Courses.id AND Courses.name= 'Basic Coding'; 	OK
+30.	SELECT Students.name, Courses.name, Gradings.grade  FROM  Students, Courses, Gradings WHERE Gradings.student_id = Students.id AND Gradings.course_id = Courses.id AND Gradings.grade >=4;  OK
+31.	SELECT Students.name, COUNT(Gradings.grade)  FROM  Students, Courses, Gradings WHERE Gradings.student_id = Students.id AND Gradings.course_id = Courses.id GROUP BY Students.id;       
+41.	SELECT P.name, P.price*2 FROM Products P;
+42.	SELECT P.name, P.price From Products P WHERE NOT P.price%2;
+43.	SELECT W.word, LENGTH(W.word) FROM Words W;  
+44.	SELECT Words.word FROM Words WHERE LENGTH(word)<6;
+45.	SELECT Words.word FROM Words ORDER BY LENGTH (Words.word), Words.word;
+46.	SELECT U.forename||" "||  U.surname FROM Users U;
+47. SELECT SUM(LENGTH(W.word)) FROM Words W;
+48.	SELECT O.product, SUM(O.price * O.amount) FROM ORDERS O GROUP BY O.id;
+49.	SELECT SUM(O.price * O.amount) FROM ORDERS O;
+50.	SELECT M.name FROM Movies M WHERE M.year % 4 = 0 AND M.year % 100 <> 0 OR M.year % 400 = 0; 
+51.	SELECT name FROM Products WHERE price = (SELECT MIN(price)FROM Products) GROUP BY name;  
+52.	SELECT name FROM Products WHERE price <= 2* (SELECT MIN(price)FROM Products) GROUP BY name ; 
+53.	SELECT name FROM Products WHERE price IN (SELECT price FROM Products GROUP BY price HAVING COUNT()=1);    
+54.	SELECT W.word FROM Words W GROUP BY W.word LIMIT 1;
+55.	SELECT W.word FROM Words W GROUP BY W.word LIMIT 1 OFFSET 1;
+56.	SELECT W.word FROM Words W GROUP BY W.word LIMIT -1 OFFSET 1;
+57.	SELECT W.word FROM Words W WHERE W.word LIKE '%i%';
+58.	SELECT W.word FROM Words W WHERE W.word LIKE 'a_%';
+59.	SELECT W.word FROM Words W WHERE W.word LIKE '%p%' AND LENGTH(W.word)=5 ;
+60.	SELECT W.word FROM Words W WHERE LENGTH(REPLACE(W.word, 'a', '')) = LENGTH(W.word) -2;    WHERE W.word LIKE '%a%a%' AND word NOT LIKE '%a%a%a%';
+61. SELECT U.username, COUNT(M.user_id) FROM Users U LEFT JOIN Memberships M ON U.id = M.user_id GROUP BY U.id;
+62. SELECT G.name, COUNT(M.group_id) FROM Groups G LEFT JOIN Memberships M ON M.group_id = G.id GROUP BY G.id;
+63. SELECT U.username FROM Users U LEFT JOIN Memberships M ON U.id = M.user_id LEFT JOIN Groups G ON G.id = M.group_id GROUP BY U.username HAVING COUNT(*) > 1 ORDER BY U.id;
+64. 
+65. 
+66. SELECT word FROM Words ORDER BY LOWER(word), word;
+67. SELECT P.name, MIN(P.price) FROM Products P GROUP BY P.name ORDER BY P.price LIMIT 1;
+68. SELECT A.name, COUNT(A.price) FROM Products A, Products B WHERE ABS(A.price - B.price) < 2 GROUP BY A.id;
+69.
+70. SELECT MIN(ABS(A.price - B.price)) FROM Products A, Products B  WHERE A.id < B.id;
+71. SELECT A.owner, CASE WHEN SUM(T.change) IS NULL THEN 0 ELSE SUM(T.change) END FROM Accounts A LEFT JOIN Transactions T On A.id = T.account_id GROUP BY A.id ;
+72. SELECT SUM(T.change) OVER(ORDER BY T.id) FROM Accounts A, Transactions T WHERE A.id = T.account_id AND A.owner='Uolevi'  ORDER BY T.id; 
+73.
+74. SELECT S.name, COUNT(DISTINCT exercise_id) FROM Students S, Exercises E LEFT JOIN Transmissions T ON S.id = T.student_id AND E.id = T.exercise_id AND T.state = 1 GROUP BY S.name;
+75.
+76.
+77.
+78.
+79. SELECT C.name, COUNT(P.cart_id) FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id GROUP BY C.name;
+80. SELECT C.name, C.seats - COUNT(P.cart_id) FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id  GROUP BY C.name;
+81. SELECT (SELECT SUM(C.seats) FROM Carts C) - COUNT(P.cart_id) FROM Passengers P;
+82.
+83.
+84.
+85.
+86. SELECT C.name FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id  WHERE P.cart_id IS NULL GROUP BY C.id;
+87.
+88.
+89.
+90. SELECT ROW_NUMBER() OVER (ORDER BY P.name) AS RowNr, P.name, MAX(R.score) FROM Players P, Results R WHERE P.id = R.player_id GROUP BY P.name;
+91.
+92.
+93.
+94.
+95.
+96.
+97.
+98. SELECT id, (SELECT COUNT(*) FROM Reservations WHERE NOT (R.start > end OR R.end < start) AND id <> R.id) FROM Reservations R;
+99.
+100. SELECT MAX(OverlapPerDay) FROM (SELECT COUNT(1) AS OverlapPerDay FROM Reservations AS R1, Reservations AS R2 WHERE R1.end BETWEEN R2.start AND R2.end GROUP BY R1.id);
