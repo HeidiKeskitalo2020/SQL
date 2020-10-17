@@ -76,9 +76,9 @@ The course can be found here: https://centria.github.io/databases/
 81. SELECT (SELECT SUM(C.seats) FROM Carts C) - COUNT(P.cart_id) FROM Passengers P;
 82.
 83.
-84.
+84. SELECT C.name FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id  WHERE P.cart_id IS NULL GROUP BY C.id;
 85.
-86. SELECT C.name FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id  WHERE P.cart_id IS NULL GROUP BY C.id;
+86. 
 87.
 88.
 89.
